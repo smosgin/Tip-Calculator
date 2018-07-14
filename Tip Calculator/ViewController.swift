@@ -31,6 +31,12 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         updateLabels()
     }
+    
+    //I recommend -viewDidAppear:, since this generates animations. Generating animations in -viewWillAppear can lead to graphic artifacts, since you're not on the screen yet. Since you almost certainly want it every time you come on screen, -viewDidLoad is likely redundant (it happens every time the view is loaded from disk, which is somewhat unpredictable, so isn't a good place for visual effects).
+    override func viewDidAppear(_ animated: Bool) {
+        //Want the textField to be the first responder when the view appears so the user can start typing right away
+        subtotalTextField.becomeFirstResponder()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -67,12 +73,12 @@ class ViewController: UIViewController {
     
     func updateLabels() {
         print("Updating labels")
-        fifteenTipLabel.text = "$\(fifteenTip)"
-        fifteenTotalLabel.text = "$\(fifteenTip + subtotal)"
-        eighteenTipLabel.text = "$\(eighteenTip)"
-        eighteenTotalLabel.text = "$\(eighteenTip + subtotal)"
-        twentyTipLabel.text = "$\(twentyTip)"
-        twentyTotalLabel.text = "$\(twentyTip + subtotal)"
+        fifteenTipLabel.text = "$" + String(format: "%0.2f", fifteenTip)
+        fifteenTotalLabel.text = String(format: "$%0.2f", fifteenTip + subtotal)
+        eighteenTipLabel.text = String(format: "$%0.2f", eighteenTip)
+        eighteenTotalLabel.text = String(format: "$%0.2f", eighteenTip + subtotal)
+        twentyTipLabel.text = String(format: "$%0.2f", twentyTip)
+        twentyTotalLabel.text = String(format: "$%0.2f", twentyTip + subtotal)
     }
 }
 
